@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './Weather.css'
 import search_icon from '../assets/search.png'
 import clear_icon from '../assets/clear.png'
@@ -11,6 +11,7 @@ import wind_icon from '../assets/wind.png'
 
 const Weather = () => {
 
+  const inputRef = useRef();
   const [ weatherData, setWeatherData ] = useState(false);
 
   // NTH: Have more accurate icons for weather conditions, dependant on how heavy the rain is change the icon to match
@@ -29,8 +30,16 @@ const Weather = () => {
     "13n": snow_icon,
   }
 
+
+
   const search = async (city) => {
+    if (city === ""){
+      alert("Please enter a valid city")
+      return;
+    }
+
     try {
+      // ${import.meta.env.VITE_WEATHERMAP_API_KEY}
       // had to add metric units due to the response from the api not being in degrees celcius 
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_WEATHERMAP_API_KEY}`;
       
@@ -49,40 +58,45 @@ const Weather = () => {
         icon: icon,
       })
     } catch (err) {
-      console.log(err);
+      setWeatherData(false);
+      console.error("Error whilst fetching data");
     }
   }
-
-  useEffect(() => {
-    search("Newcastle");
-  }, [])
+  
+  // Temporarily removed as was preventing fallback testing upon incorrect searches 
+  // useEffect(() => {
+  //   search("Newcastle");
+  // }, [])
 
   return (
     <div className='weather'>
       <div className='search-input'>
-        <input type="text" placeholder='Find my weather' />
-        <img src={search_icon} alt="Search Icon" />
+        <input ref={inputRef} type="text" placeholder='Find my weather' />
+        <img src={search_icon} alt="Search Icon" onClick={() => search(inputRef.current.value)} />
       </div>
-      <img src={clear_icon} alt="Clear Icon" className="weather-icon" />
-      <p className="temperature">16*C</p>
-      <p className="location">{weatherData.location}</p>
-      <div className="weather-data-section">
-        <div className="col">
-          <img src={humidity_icon} alt="Humidity icon" />
-          <div>
-            <p className="humidity_value">91%</p>
-            {/* <p>{weatherData.humidity}</p> */}
-            <span>Humidity</span>
-          </div>
-        </div>
-        <div className="col">
-          <img src={wind_icon} alt="Wind icon" />
-          <div>
-            <p>2.3 Mp/h</p>
-            <span>Wind Speed</span>
-          </div>
-        </div>
-      </div>
+      {/* Check below, if no data returned dont show empty data fields */}
+      {weatherData? <>
+        <img src={weatherData.icon} alt="Clear Icon" className="weather-icon" />
+          <p className="temperature">{weatherData.temperature}</p>
+          <p className="location">{weatherData.location}</p>
+          <div className="weather-data-section">
+            <div className="col pr3">
+              <img src={humidity_icon} alt="Humidity icon" />
+              <div>
+                <p className="humidity_value">{weatherData.humidity}</p>
+                {/* <p>{weatherData.humidity}</p> */}
+                <span>Humidity</span>
+              </div>
+            </div>
+            <div className="col">
+              <img src={wind_icon} alt="Wind icon" />
+              <div>
+                <p>2.3 Mp/h</p>
+                <span>{weatherData.WindSpeed}</span>
+              </div>
+            </div>
+          </div> 
+        </> : <></>}
     </div>
   )
 }
