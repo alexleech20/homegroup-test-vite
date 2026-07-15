@@ -1,0 +1,34 @@
+.weather {
+  place-self: center;
+  padding: 40px;
+  border-radius: 10px;
+  background-image: linear-gradient(45deg, #2f4680, white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-input input {
+  height: 50px;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  padding-left: 25px;
+  color: #626262;
+  background: white;
+  font-size: 18px;
+}
+
+.search-input img {
+  width: 50px;
+  padding: 15px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+}
