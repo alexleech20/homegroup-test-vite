@@ -100,27 +100,15 @@ const Weather = () => {
         <img src={weatherData.icon} alt="Clear Icon" className="weather-icon" />
           <p className="temperature">{weatherData.temperature}</p>
           <p className="location">{weatherData.location}</p>
-          <div className="weather-data-section">
-            <div className="col pr3">
-              <img src={humidity_icon} alt="Humidity icon" />
-              <div>
-                <p className="humidity_value">{weatherData.humidity}</p>
-                <span>Humidity</span>
-              </div>
-            </div>
-            <div className="col">
-              <img src={wind_icon} alt="Wind icon" />
-              <div>
-                <p>{weatherData.windSpeed}</p>
-                <span>Wind Speed</span>
-              </div>
-            </div>
-          </div> 
+
           <div className="weather-data-section">
             <div className="col pr3">
               <img src={sunrise_icon} alt="Sunrise icon" />
               <div>
                 Sunrise:{" "}
+                {/* Due to being local time zone this doesnt work too well for looking up Boston, Tokyo, NY etc.
+                This would be an improvement needed to be made in the future, as i dont think the sunrises in Tokyo at 
+                20:37 */}
                 {weatherData.sunrise.toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -138,6 +126,24 @@ const Weather = () => {
               </div>
             </div>
           </div> 
+
+          <div className="weather-data-section">
+            <div className="col pr3">
+              <img src={humidity_icon} alt="Humidity icon" />
+              <div>
+                <p className="humidity_value">{weatherData.humidity}</p>
+                <span>Humidity</span>
+              </div>
+            </div>
+            <div className="col">
+              <img src={wind_icon} alt="Wind icon" />
+              <div>
+                <p>{weatherData.windSpeed}</p>
+                <span>Wind Speed</span>
+              </div>
+            </div>
+          </div> 
+          
         </> : <></>}
     </div>
   )
