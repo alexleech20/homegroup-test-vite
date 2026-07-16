@@ -16,6 +16,7 @@ const Weather = () => {
 
   const inputRef = useRef();
   const [ weatherData, setWeatherData ] = useState(false);
+  const [ lookupError, setLookupError ] = useState(false);
 
   // NTH: Have more accurate icons for weather conditions, dependant on how heavy the rain is change the icon to match
   const weatherIcons = {
@@ -66,8 +67,10 @@ const Weather = () => {
         sunrise: sunrise,
         sunset: sunset,
       })
+      setLookupError(false);
     } catch (err) {
       setWeatherData(false);
+      setLookupError(true);
       console.error("Error whilst fetching data", err);
       // NTH: Could add a trigger here to display an error component, using a ternary operator to say if error display error block
     }
@@ -84,6 +87,14 @@ const Weather = () => {
         <input ref={inputRef} type="text" placeholder='Find my weather' />
         <img src={search_icon} alt="Search Icon" onClick={() => search(inputRef.current.value)} />
       </div>
+
+      {lookupError === true && (
+        <>
+          <span className="errorMessage" aria-label='There was an error with your search criteria, please try again.'>
+            There was an error with your search criteria, please try again.
+          </span>
+        </>
+      ) }
       {/* Check below, if no data returned dont show empty data fields */}
       {weatherData? <>
         <img src={weatherData.icon} alt="Clear Icon" className="weather-icon" />
