@@ -8,6 +8,9 @@ import humidity_icon from '../assets/humidity.png'
 import rain_icon from '../assets/rain.png'
 import snow_icon from '../assets/snow.png'
 import wind_icon from '../assets/wind.png'
+import sunrise_icon from '../assets/sunrise.png'
+import sunset_icon from '../assets/sunset.png'
+
 
 const Weather = () => {
 
@@ -41,7 +44,7 @@ const Weather = () => {
     try {
       // ${import.meta.env.VITE_WEATHERMAP_API_KEY}
       // had to add metric units due to the response from the api not being in degrees celcius 
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_WEATHERMAP_API_KEY}`;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_WEATHER_API_KEY}&units=metric`;
       
       const response = await fetch(url);
       const data = await response.json();
@@ -50,16 +53,23 @@ const Weather = () => {
 
       const icon = weatherIcons[data.weather[0].icon] || clear_icon;
 
+      // format from api isnt readable so having to convert it
+      const sunrise = new Date(data.sys.sunrise * 1000);
+      const sunset = new Date(data.sys.sunset * 1000);
+
       setWeatherData({
         humidity: data.main.humidity,
         windSpeed: data.wind.speed,
         temperature: Math.floor(data.main.temp),
         location: data.name,
         icon: icon,
+        sunrise: sunrise,
+        sunset: sunset,
       })
     } catch (err) {
       setWeatherData(false);
       console.error("Error whilst fetching data", err);
+      // NTH: Could add a trigger here to display an error component, using a ternary operator to say if error display error block
     }
   }
   
@@ -84,7 +94,6 @@ const Weather = () => {
               <img src={humidity_icon} alt="Humidity icon" />
               <div>
                 <p className="humidity_value">{weatherData.humidity}</p>
-                {/* <p>{weatherData.humidity}</p> */}
                 <span>Humidity</span>
               </div>
             </div>
@@ -93,6 +102,28 @@ const Weather = () => {
               <div>
                 <p>{weatherData.windSpeed}</p>
                 <span>Wind Speed</span>
+              </div>
+            </div>
+          </div> 
+          <div className="weather-data-section">
+            <div className="col pr3">
+              <img src={sunrise_icon} alt="Sunrise icon" />
+              <div>
+                Sunrise:{" "}
+                {weatherData.sunrise.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </div>
+            </div>
+            <div className="col">
+              <img src={sunset_icon} alt="Sunset icon" />
+              <div>
+                Sunset:{" "}
+                {weatherData.sunset.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </div>
             </div>
           </div> 
