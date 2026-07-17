@@ -97,6 +97,7 @@ const Weather = () => {
           onClick={() => search(inputRef.current.value)} 
           alt="Search button"
           className="search-button"
+          aria-label="Forecast search button"
         >
           <img aria-hidden="true" src={search_icon} />
         </button>
@@ -122,8 +123,8 @@ const Weather = () => {
 
           <div className="weather-data-section">
             <div className="col pr3">
-              <img src={sunrise_icon} alt="Sunrise icon" />
-              <div>
+              <img src={sunrise_icon} alt="Sunrise icon"  aria-label="Sunrise image" />
+              <div aria-label="Sunrise data section">
                 Sunrise:{" "}
                 {/* Due to being local time zone this doesnt work too well for looking up Boston, Tokyo, NY etc.
                 This would be an improvement needed to be made in the future, as i dont think the sunrises in Tokyo at 
@@ -134,8 +135,8 @@ const Weather = () => {
                 })}
               </div>
             </div>
-            <div className="col">
-              <img src={sunset_icon} alt="Sunset icon" />
+            <div className="col"  aria-label="Sunset data section">
+              <img src={sunset_icon} alt="Sunset icon" aria-label="Sunset icon"/>
               <div>
                 Sunset:{" "}
                 {weatherData.sunset.toLocaleTimeString([], {
@@ -148,16 +149,16 @@ const Weather = () => {
 
           <div className="weather-data-section">
             <div className="col pr3">
-              <img src={humidity_icon} alt="Humidity icon" />
+              <img src={humidity_icon} alt="Humidity icon"  aria-label="Humiditiy icon"/>
               <div>
-                <p className="humidity_value">{weatherData.humidity}</p>
+                <p aria-label="Humidity value">{weatherData.humidity}</p>
                 <span>Humidity</span>
               </div>
             </div>
             <div className="col">
-              <img src={wind_icon} alt="Wind icon" />
+              <img src={wind_icon} alt="Wind icon" aria-label="Wind speed icon"/>
               <div>
-                <p>{weatherData.windSpeed}</p>
+                <p aria-label="Humidity value">{weatherData.windSpeed}</p>
                 <span>Wind Speed</span>
               </div>
             </div>
