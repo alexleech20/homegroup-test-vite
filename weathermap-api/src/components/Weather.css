@@ -96,3 +96,8 @@
   background-color: white;
   border: red solid;
 }
+
+.search-button {
+  background-color: transparent;
+  border: none;
+}

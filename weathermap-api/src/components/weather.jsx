@@ -84,8 +84,22 @@ const Weather = () => {
   return (
     <div className='weather'>
       <div className='search-input'>
-        <input ref={inputRef} type="text" placeholder='Find my weather' />
-        <img src={search_icon} alt="Search Icon" onClick={() => search(inputRef.current.value)} />
+        <input 
+          aria-required={true}
+          aria-label='Find my weather forecast'
+          ref={inputRef} 
+          type="text" 
+          placeholder='Find my weather' 
+        />
+        {/* <img src={search_icon} alt="Search Icon" onClick={() => search(inputRef.current.value)} /> */}
+        <button 
+          type='submit' 
+          onClick={() => search(inputRef.current.value)} 
+          alt="Search button"
+          className="search-button"
+        >
+          <img aria-hidden="true" src={search_icon} />
+        </button>
       </div>
 
       {lookupError === true && (
@@ -100,6 +114,11 @@ const Weather = () => {
         <img src={weatherData.icon} alt="Clear Icon" className="weather-icon" />
           <p className="temperature">{weatherData.temperature}</p>
           <p className="location">{weatherData.location}</p>
+          { 
+            // add condition for weather condition here, 
+            // check what data the api provides in order to do checks and display valid user friendly data.
+            // ternary here to check against weather conditions, wear a jacket, take sun screen, 
+          }
 
           <div className="weather-data-section">
             <div className="col pr3">
